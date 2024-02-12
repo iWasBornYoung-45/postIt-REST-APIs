@@ -31,12 +31,12 @@ class UserResponseSchema(UserBodySchema):
     registered_at: datetime
 
 class ResponseBody(BodySchema):
-    model_config = ConfigDict(from_attributes=True)
     id: UUID
     added_on: datetime
     op: UserResponseSchema
     
-class ResponseBody1(pydantic.BaseModel):
+class PostsResponseBody(pydantic.BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     post: ResponseBody
     upvotes: int
 
