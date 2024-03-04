@@ -1,4 +1,4 @@
 .env
 __pycache__
-/alembic.ini
-/db/
+./alembic.ini
+./db/

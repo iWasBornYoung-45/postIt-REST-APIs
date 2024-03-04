@@ -21,7 +21,6 @@ async def get_posts(db: Annotated[Session, Depends(get_db)], limit: Annotated[in
 
 @router.post('/', response_model=schemas.ResponseBody, status_code=status.HTTP_201_CREATED)
 async def add_post(payload: schemas.BodySchema, db: Annotated[Session, Depends(get_db)], current_user: Annotated[models.Users, Depends(utils.get_current_user)]):
-    print(current_user.user_id)
     post = models.Posts(op_id = current_user.user_id, **payload.model_dump())
     db.add(post)
     db.commit()
@@ -38,7 +37,7 @@ async def update_post(id: UUID, payload: schemas.BodySchema, db: Annotated[Sessi
         db.commit()
         updated_post = db.query(models.Posts).filter(models.Posts. id == id).first()
         return updated_post
-    return HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
 @router.delete('/', status_code=status.HTTP_204_NO_CONTENT)
 async def delete_post(id: str, db: Annotated[Session, Depends(get_db)], current_user: Annotated[models.Users, Depends(utils.get_current_user)]):
